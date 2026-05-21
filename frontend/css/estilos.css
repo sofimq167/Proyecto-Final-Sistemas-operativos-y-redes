@@ -1,40 +1,292 @@
-/* Tarjeta clickeable para cada candidato */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+    --naranja:       #F97316;
+    --naranja-hover: #EA6A0C;
+    --naranja-suave: #FFF3E8;
+    --oscuro:        #1A1A2E;
+    --texto:         #374151;
+    --gris:          #9CA3AF;
+    --fondo:         #FFF9F5;
+    --blanco:        #FFFFFF;
+    --borde:         #E5E7EB;
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--fondo);
+    color: var(--texto);
+    margin: 0;
+}
+
+/* ── ENCABEZADO ── */
+.encabezado {
+    background: var(--oscuro);
+    border-bottom: 4px solid var(--naranja);
+    padding: 32px 20px;
+    text-align: center;
+}
+
+.encabezado .etiqueta {
+    display: inline-block;
+    background: var(--naranja);
+    color: var(--blanco);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px 16px;
+    border-radius: 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.encabezado h1 {
+    color: var(--blanco);
+    font-weight: 800;
+    font-size: 2rem;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.encabezado p {
+    color: var(--naranja);
+    font-weight: 500;
+    font-size: 0.95rem;
+    margin: 8px 0 0;
+}
+
+/* ── TARJETA CONTENEDORA ── */
+.tarjeta-principal {
+    background: var(--blanco);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    padding: 40px;
+    max-width: 740px;
+    margin: 0 auto;
+}
+
+/* ── CAMPO CÓDIGO ── */
+.campo-codigo label {
+    display: block;
+    font-weight: 600;
+    color: var(--oscuro);
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+.campo-codigo input {
+    width: 100%;
+    border: 2px solid var(--borde);
+    border-radius: 12px;
+    padding: 11px 16px;
+    font-size: 0.95rem;
+    color: var(--oscuro);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo-codigo input:focus {
+    border-color: var(--naranja);
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+}
+
+/* ── DIVISOR Y SECCIÓN ── */
+.divisor {
+    border: none;
+    border-top: 2px solid #F3F4F6;
+    margin: 28px 0;
+}
+
+.seccion-titulo {
+    font-weight: 700;
+    color: var(--oscuro);
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+}
+
+/* ── TARJETAS DE CANDIDATOS ── */
 .tarjeta-candidato {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 8px;
-    padding: 12px;
-    border: 2px solid #dee2e6;
-    border-radius: 8px;
+    padding: 8px 8px 14px;
+    border: 2px solid var(--borde);
+    border-radius: 16px;
     cursor: pointer;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    transition: all 0.2s ease;
+    background: var(--blanco);
+    width: 100%;
+    position: relative;
     text-align: center;
-    width: 100%;
 }
 
-.tarjeta-candidato img {
+.img-candidato {
     width: 100%;
-    max-height: 160px;
-    object-fit: contain;
-    border-radius: 4px;
+    height: 320px;
+    overflow: hidden;
+    border-radius: 10px;
+    flex-shrink: 0;
 }
 
-.tarjeta-candidato span {
+.img-candidato img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+}
+
+.tarjeta-candidato .nombre-candidato {
     font-weight: 600;
+    color: var(--oscuro);
+    font-size: 0.95rem;
 }
 
-/* Ocultamos el radio button nativo — la tarjeta entera actúa como selector */
+/* El radio se oculta — la tarjeta entera hace de selector */
 .tarjeta-candidato input[type="radio"] {
     display: none;
 }
 
 .tarjeta-candidato:hover {
-    border-color: #0d6efd;
+    border-color: var(--naranja);
+    background: var(--naranja-suave);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(249, 115, 22, 0.18);
 }
 
-/* Se aplica desde votar.js cuando el usuario elige un candidato */
 .tarjeta-candidato.seleccionada {
-    border-color: #0d6efd;
-    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.2);
+    border-color: var(--naranja);
+    background: var(--naranja-suave);
+    box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.2);
+    transform: translateY(-3px);
+}
+
+/* Checkmark que aparece al seleccionar */
+.tarjeta-candidato.seleccionada::after {
+    content: '✓';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--naranja);
+    color: var(--blanco);
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+}
+
+/* ── BOTÓN VOTAR ── */
+.btn-votar {
+    background: var(--naranja);
+    color: var(--blanco);
+    border: none;
+    border-radius: 12px;
+    padding: 14px 24px;
+    font-weight: 700;
+    font-size: 1rem;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+    margin-top: 8px;
+    letter-spacing: 0.3px;
+}
+
+.btn-votar:hover {
+    background: var(--naranja-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(249, 115, 22, 0.35);
+}
+
+.btn-votar:active {
+    transform: translateY(0);
+}
+
+/* ── ALERTAS ── */
+.alerta-custom {
+    border-radius: 12px;
+    padding: 13px 18px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+/* ── LINK PIE ── */
+.link-pie {
+    text-align: center;
+    margin-top: 24px;
+    font-size: 0.9rem;
+}
+
+.link-pie a {
+    color: var(--naranja);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.link-pie a:hover {
+    text-decoration: underline;
+}
+
+/* ── RESULTADOS ── */
+.candidato-row {
+    margin-bottom: 22px;
+}
+
+.candidato-row .fila-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 7px;
+}
+
+.candidato-row .nombre-res {
+    font-weight: 600;
+    color: var(--oscuro);
+    font-size: 0.95rem;
+}
+
+.candidato-row .conteo-res {
+    font-size: 0.83rem;
+    color: var(--gris);
+    font-weight: 500;
+}
+
+.barra-container {
+    background: #F3F4F6;
+    border-radius: 8px;
+    height: 12px;
+    overflow: hidden;
+}
+
+.barra-fill {
+    height: 100%;
+    border-radius: 8px;
+    background: linear-gradient(90deg, var(--naranja), #FBBF24);
+    transition: width 0.6s ease;
+    min-width: 0%;
+}
+
+/* El candidato con más votos se destaca en naranja */
+.candidato-row.lider .nombre-res {
+    color: var(--naranja);
+}
+
+.candidato-row.lider .barra-fill {
+    background: linear-gradient(90deg, #EA6A0C, var(--naranja));
+}
+
+.total-votos {
+    text-align: right;
+    font-size: 0.83rem;
+    color: var(--gris);
+    font-weight: 500;
+    margin-top: 20px;
 }

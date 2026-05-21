@@ -9,7 +9,6 @@ document.getElementById('form-voto').addEventListener('submit', async function (
         return;
     }
 
-    // El value del radio button es el id del candidato en la BD (1, 2 o 3)
     const candidato_id = parseInt(seleccionado.value);
 
     try {
@@ -30,7 +29,6 @@ document.getElementById('form-voto').addEventListener('submit', async function (
         }
 
     } catch (error) {
-        // Esto pasa si el backend no responde — por ejemplo si el contenedor no levantó
         mostrarAlerta('No se pudo conectar con el servidor. Intentá de nuevo.', 'danger');
     }
 });
@@ -38,16 +36,13 @@ document.getElementById('form-voto').addEventListener('submit', async function (
 function mostrarAlerta(mensaje, tipo) {
     const alerta = document.getElementById('alerta');
     alerta.textContent = mensaje;
-    alerta.className = `alert alert-${tipo}`;
-    alerta.classList.remove('d-none');
+    alerta.className = `alerta-custom alert alert-${tipo}`;
 }
 
 function limpiarSeleccion() {
-    // Quitamos el estilo de "seleccionado" de todas las tarjetas
     document.querySelectorAll('.tarjeta-candidato').forEach(t => t.classList.remove('seleccionada'));
 }
 
-// Resalta visualmente la tarjeta cuando el usuario elige un candidato
 document.querySelectorAll('input[name="candidato"]').forEach(function (radio) {
     radio.addEventListener('change', function () {
         limpiarSeleccion();

@@ -7,27 +7,28 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/estilos.css">
 </head>
-<body class="bg-light">
+<body>
 
-    <div class="container py-5">
-        <div class="text-center mb-4">
-            <h1 class="fw-bold">Resultados parciales</h1>
-            <p class="text-muted">Se actualizan cada 5 segundos</p>
+    <header class="encabezado">
+        <span class="etiqueta">En vivo</span>
+        <h1>Resultados parciales</h1>
+        <p>Ingeniería — USB Cali</p>
+    </header>
+
+    <main class="container py-5">
+
+        <div class="tarjeta-principal" style="max-width: 620px;">
+
+            <div id="error" class="alerta-custom alert alert-danger d-none" role="alert"></div>
+            <div id="contenedor-resultados"></div>
+
         </div>
 
-        <div class="card shadow-sm mx-auto" style="max-width: 600px;">
-            <div class="card-body p-4">
-
-                <div id="error" class="alert alert-danger d-none" role="alert"></div>
-                <div id="contenedor-resultados"></div>
-
-            </div>
-        </div>
-
-        <div class="text-center mt-3">
+        <div class="link-pie">
             <a href="index.html">← Volver a votar</a>
         </div>
-    </div>
+
+    </main>
 
     <script src="js/resultados.js"></script>
 </body>

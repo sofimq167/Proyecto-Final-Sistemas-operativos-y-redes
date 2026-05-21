@@ -3,34 +3,33 @@ async function cargarResultados() {
         const respuesta = await fetch('/api/resultados');
         const datos = await respuesta.json();
 
-        // Calculamos el total para mostrar el porcentaje de cada candidato
         const totalVotos = datos.reduce((suma, item) => suma + item.votos, 0);
+        const maxVotos = Math.max(...datos.map(item => item.votos));
 
         const contenedor = document.getElementById('contenedor-resultados');
         contenedor.innerHTML = '';
 
         datos.forEach(function (item) {
-            const porcentaje = totalVotos > 0
-                ? Math.round((item.votos / totalVotos) * 100)
-                : 0;
+            const porcentaje = totalVotos > 0 ? Math.round((item.votos / totalVotos) * 100) : 0;
+            const esLider = item.votos === maxVotos && maxVotos > 0;
 
-            const bloque = document.createElement('div');
-            bloque.className = 'mb-4';
-            bloque.innerHTML = `
-                <div class="d-flex justify-content-between mb-1">
-                    <span class="fw-semibold">${item.candidato}</span>
-                    <span>${item.votos} voto${item.votos !== 1 ? 's' : ''} (${porcentaje}%)</span>
+            const fila = document.createElement('div');
+            fila.className = 'candidato-row' + (esLider ? ' lider' : '');
+            fila.innerHTML = `
+                <div class="fila-info">
+                    <span class="nombre-res">${item.candidato}${esLider ? ' 🏆' : ''}</span>
+                    <span class="conteo-res">${item.votos} voto${item.votos !== 1 ? 's' : ''} · ${porcentaje}%</span>
                 </div>
-                <div class="progress">
-                    <div class="progress-bar" style="width: ${porcentaje}%"></div>
+                <div class="barra-container">
+                    <div class="barra-fill" style="width: ${porcentaje}%"></div>
                 </div>
             `;
-            contenedor.appendChild(bloque);
+            contenedor.appendChild(fila);
         });
 
         if (totalVotos > 0) {
             const total = document.createElement('p');
-            total.className = 'text-muted text-end mt-3 mb-0';
+            total.className = 'total-votos';
             total.textContent = `Total de votos: ${totalVotos}`;
             contenedor.appendChild(total);
         }
@@ -38,12 +37,11 @@ async function cargarResultados() {
         document.getElementById('error').classList.add('d-none');
 
     } catch (error) {
-        document.getElementById('error').textContent = 'No se pudieron cargar los resultados.';
-        document.getElementById('error').classList.remove('d-none');
+        const err = document.getElementById('error');
+        err.textContent = 'No se pudieron cargar los resultados.';
+        err.classList.remove('d-none');
     }
 }
 
 cargarResultados();
-
-// Refresca automáticamente para mostrar los votos en tiempo real
 setInterval(cargarResultados, 5000);
