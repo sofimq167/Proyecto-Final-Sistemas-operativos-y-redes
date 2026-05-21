@@ -1,15 +1,49 @@
 services:
+
   frontend:
-    image: nginx:trixie
-    dns:
-      -8.8.8.8
-      -1.1.1.1
+    image: nginx:alpine
     ports:
-      - 8080:80
+      - "8080:80"
     volumes:
+      # Archivos estáticos del sitio
       - ./frontend:/usr/share/nginx/html
+      # Configuración personalizada: sirve estáticos y hace proxy al backend
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+
   backend:
-    image: busybox
+    build: ./backend
+    # Flask no se expone al host directamente; solo Nginx lo alcanza
+    expose:
+      - "5000"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    depends_on:
+      db:
+        # Espera a que PostgreSQL acepte conexiones antes de arrancar Flask
+        condition: service_healthy
+
   db:
-    image: busybox
-    
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      # Script que crea las tablas e inserta los candidatos al primer arranque
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+      # Volumen nombrado para que los votos sobrevivan reinicios del contenedor
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:
