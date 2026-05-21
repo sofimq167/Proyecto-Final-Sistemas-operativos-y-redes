@@ -3,64 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de votación mascota facultad de ingeniería</title>
+    <title>Vota por la Mascota — Facultad de Ingeniería USB Cali</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/estilos.css">
 </head>
-<body>
-    <!-- 1. Corregido: Se pasa el evento y se ejecuta la función con () -->
-    <form action="" method="post" onsubmit="return validar(event)">
-        <label for="code"> Código estudiante: </label>
-        <input type="text" name="code" id="code" required>
+<body class="bg-light">
 
-        <fieldset>
-            <legend>Escoja un candidato: </legend>
-            <div>
-                <label for="c01">Candidato 01</label>
-                <img src="img/Copilot_20260519_165845.png" style="height: 200px;" alt="">
-                <!-- 2. Agregado: value="Candidato 01" -->
-                <input type="radio" name="candidato" id="c01" value="Candidato 01">
+    <div class="container py-5">
+        <div class="text-center mb-4">
+            <h1 class="fw-bold">Mascota de la Facultad de Ingeniería</h1>
+            <p class="text-muted">USB Cali — Votación oficial</p>
+        </div>
+
+        <div class="card shadow-sm mx-auto" style="max-width: 700px;">
+            <div class="card-body p-4">
+
+                <div id="alerta" class="alert d-none mb-3" role="alert"></div>
+
+                <form id="form-voto">
+                    <div class="mb-4">
+                        <label for="codigo" class="form-label fw-semibold">Código estudiantil</label>
+                        <input type="text" id="codigo" class="form-control" placeholder="Ej: 2210123" required>
+                    </div>
+
+                    <p class="fw-semibold mb-3">Elige tu candidato:</p>
+
+                    <div class="row g-3 mb-4">
+
+                        <div class="col-md-4">
+                            <label class="tarjeta-candidato" for="c1">
+                                <img src="img/Copilot_20260519_165845.png" alt="Pavo Real">
+                                <span>Pavo Real</span>
+                                <input type="radio" name="candidato" id="c1" value="1" required>
+                            </label>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="tarjeta-candidato" for="c2">
+                                <img src="img/Copilot_20260519_165852.png" alt="Pato">
+                                <span>Pato</span>
+                                <input type="radio" name="candidato" id="c2" value="2">
+                            </label>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="tarjeta-candidato" for="c3">
+                                <img src="img/Copilot_20260519_170101.png" alt="Ganso">
+                                <span>Ganso</span>
+                                <input type="radio" name="candidato" id="c3" value="3">
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Emitir voto</button>
+                </form>
+
             </div>
-            <div>
-                <!-- Corregido el 'for' para que apunte a c02 -->
-                <label for="c02">Candidato 02</label>
-                <img src="img/Copilot_20260519_165852.png" style="height: 200px;" alt="">
-                <!-- 2. Agregado: value="Candidato 02" -->
-                <input type="radio" name="candidato" id="c02" value="Candidato 02">
-            </div>
-            <div>
-                <!-- Corregido el 'for' para que apunte a c03 -->
-                <label for="c03">Candidato 03</label>
-                <img src="img/Copilot_20260519_170101.png" style="height: 200px;" alt="">
-                <!-- 2. Agregado: value="Candidato 03" -->
-                <input type="radio" name="candidato" id="c03" value="Candidato 03">
-            </div>
-        </fieldset>
+        </div>
 
-        <!-- 3. Corregido: Cambiado a type="submit" para que dispare el onsubmit del formulario -->
-        <input type="submit" value="votar">
-    </form>
+        <div class="text-center mt-3">
+            <a href="resultados.html">Ver resultados parciales →</a>
+        </div>
+    </div>
 
-    <script>
-        function validar(event) {
-            // Evita que la página se recargue inmediatamente para poder ver el console.log
-            event.preventDefault(); 
-
-            // Busca el radio button que esté seleccionado (checked) dentro del grupo 'candidato'
-            const seleccionado = document.querySelector('input[name="candidato"]:checked');
-
-            if (seleccionado) {
-                // Si hay uno seleccionado, accedemos a su atributo value
-                console.log(`Voto emitido para: ${seleccionado.value}`);
-                
-                // Aquí puedes continuar con el envío real si lo deseas:
-                // event.target.submit();
-                return true;
-            } else {
-                console.log("No se seleccionó ningún candidato.");
-                alert("Por favor, selecciona un candidato antes de votar.");
-                return false;
-            }
-        }
-    </script>
+    <script src="js/votar.js"></script>
 </body>
 </html>
