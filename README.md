@@ -15,7 +15,7 @@ Sistema distribuido de votación implementado con Docker. Permite que los estudi
 
 ```bash
 # 1. Clonar el repositorio
-git clone <https://github.com/sofimq167/Proyecto-Final-Sistemas-operativos-y-redes>
+git clone https://github.com/sofimq167/Proyecto-Final-Sistemas-operativos-y-redes
 cd "Proyecto final"
 
 # 2. Crear el archivo de variables de entorno
